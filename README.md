@@ -6,3 +6,5 @@ Want your device to buzz in a haptic response at the start of every button click
 This library allows you to have methods that automically run when ever there is start and end event to Short, Long, Hold and Shift Events.  Easily provide user response to events and then only commit to the action code once a Release events is actived! 
 
 All the power in an easy to use package!
+
+![FlowChartImage](https://www.walkingtrading.com/wp-content/uploads/2017/07/sticker-enjoy-your-gift-1000x1000.jpg)

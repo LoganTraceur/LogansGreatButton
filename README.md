@@ -7,4 +7,4 @@ This library allows you to have methods that automically run when ever there is 
 
 All the power in an easy to use package!
 
-![FlowChartImage](/extra/Event Flowchart.jpg)
+![FlowChartImage](extra/Event Flowchart.jpg)

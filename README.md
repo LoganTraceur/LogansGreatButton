@@ -1,4 +1,7 @@
 # LogansGreatButton
+
+![FlowChartImage](extra/banner.jpg)
+      
 An easy to use, powerful, self contained button library so you can focus on your other code! 
 
 Features

@@ -18,25 +18,26 @@
 
 // Required so that the picky Arduino IDE knows that these methods will be declared later (In the second tab). In a future version, this will not be necessary.
 extern void onButtonActionPressed();
-extern void onButtonPressShort();
+extern void onButtonPressShortRelease();
 extern void onButtonPressLongStart();
 extern void onButtonPressLongRelease();
 extern void onButtonHoldStart();
 extern void onButtonHoldContinuous();
 extern void onButtonHoldRelease();
+extern void onMultiClicks();
 extern void onButtonShiftStart();
 extern void onButtonShiftRelease();
 
 // Class: Button
 #include <LogansGreatButton.h>
 #define BUTTON_PIN    2
-LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShort, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onButtonShiftStart, onButtonShiftRelease);
+LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShortRelease, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onMultiClicks, onButtonShiftStart, onButtonShiftRelease);
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-
+  Serial.println("Welcome to LogansGreatButton example!");
 }
 
 void loop() {

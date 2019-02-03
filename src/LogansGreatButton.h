@@ -7,83 +7,6 @@ Created by Logan Krantz 2016/10/15.
 //#define DEBUG_BUTTON_ON 1			// Uncomment to get a serial.print message for every button event
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-/*
-//_______________________________________________________________________________________________________________________________________________________________
-// EXAMPLE
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// What the button does in different situations
-
-void onButtonActionPressed() 
-{
-
-}
-
-void onButtonPressShort()
-{
-
-}
-
-void onButtonPressLongStart()
-{
-
-}
-
-void onButtonPressLongRelease()
-{
-
-}
-
-void onButtonHoldStart()
-{
-
-}
-
-void onButtonHoldContinuous()
-{
-
-}
-
-void onButtonHoldRelease()
-{
-
-}
-
-// SHIFT: Actions for the start and end of the shift state
-// Ask if the button is able to be in shift mode and if it is, do that instead of long or short releases.
-// A limbo state if you will.
-
-// To use Place the following method just after you turn a dial or click a button.
-// This simple if statement allows you to split your logic paths. 
-// First it asks the button if it is being held down, and if so automatically sets it into shift mode so you can now shift click other buttons or spin a dial.
-void EXAMPLE_METHOD_ButtonClicked_Or_DialTurned()
-{
-	if (button.isShiftStateReady_ThenShiftMode())
-	{
-		// Shift state ready and now activated. Shift click away.
-	}
-	else
-	{
-		// No shift state. Act normal. Button is not held down, or has been held down too long before this method was called.
-	}
-}
-
-// At the start of a shift event, tell the user by flashing a light or making a buzz
-void onButtonShiftStart()
-{
-
-}
-
-// When the shift event ends, what should happen? (More Flashing and buzzing)
-void onButtonShiftRelease()
-{
-
-}
-
-
-*/
-
-
-
 #ifndef LogansGreatButton_h
 #define LogansGreatButton_h
 
@@ -97,7 +20,7 @@ And to use SHIFT clicks use "if (button.isShiftStateReady_ThenShiftMode()) {"
 // Class: Button
 #include <LogansGreatButton.h>
 #define BUTTON_PIN		2
-LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShort, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onButtonShiftStart, onButtonShiftRelease);
+LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShortRelease, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onButtonShiftStart, onButtonShiftRelease);
 
 button.LOOPButtonController();
 */
@@ -107,12 +30,13 @@ public:
 	// Constructor
 	LogansGreatButton(uint8_t buttonPin,
 		callBack onActionPressed,
-		callBack onPressShort,
+		callBack onPressShortRelease,
 		callBack onPressLongStart,
 		callBack onPressLongRelease,
 		callBack onHoldStart,
 		callBack onHoldContinuous,
 		callBack onHoldRelease,
+		callBack onMultiClicks,
 		callBack onShiftStart,
 		callBack onShiftRelease);
 
@@ -134,21 +58,26 @@ public:
 	// Returns true if shift mode has successfully been activated using button.isShiftStateReady_ThenShiftMode() elsewhere.
 	boolean isButtonInShiftMode();
 
+	// Returns the current number of multiclicks
+	uint16_t getNumberOfMultiClicks();
+
 private:
 	//void interruptButton();
 	void checkIfPressedOrReleased();
-	void buttonActionReleased();
+	void buttonActionReleased(); 
+	void releaseOfShortOrMultiClicks();
 
 	
 	// Callback Methods, This allows the user to use their own methods when a button event happens
 	callBack
 		_CallBackActionPressed,
-		_CallBackPressShort,
+		_CallBackPressShortRelease,
 		_CallBackPressLongStart,
 		_CallBackPressLongRelease,
 		_CallBackHoldStart,
 		_CallBackHoldContinuous,
 		_CallBackHoldRelease,
+		_CallBackMultiClicks,
 		_CallBackShiftStart,
 		_CallBackShiftRelease;
 
@@ -157,12 +86,13 @@ private:
 		isButtonHeld(),
 		isButtonLongPress(),
 		isButtonReleased();
-	
 
 	// Global Private Variables
 	uint8_t _PIN_BUTTON;
 	uint32_t _lastButtonPressTime;					// This variable is used to help the button respond to presses
 	uint8_t _buttonCurrentState;					// This variable keeps track of the type of button press. It goes through 3 levels. PRESS, LONG, HOLD
+	uint32_t _millisAtStartOfLoop;					// This variable is set to millis() at the beginning of each loop. This limits the calls to millis() to a max of once per loop
+	uint16_t _numberOfMultiClicks;					// This variable counts how many times the button has been pressed in a multiclick event
 	boolean _isStartOfHold;							// A variable to control onHoldStart, to ensure it is only run once per hold;
 	boolean _isStartOfShift;						// A variable to control onShiftStart, to ensure it is only run once per hold;
 };

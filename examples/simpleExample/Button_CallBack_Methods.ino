@@ -5,37 +5,50 @@
 
 void onButtonActionPressed() 
 {
-  Serial.println("The Button has been pressed. What will the future hold?");
+	Serial.println();
+	Serial.println("The button has been PRESSED. What will the future hold?");
 }
 
-void onButtonPressShort()
+void onButtonPressShortRelease()
 {
-  Serial.println("The Button was released fast enough to be a short press.");
+	Serial.println("End  of a SHORT Press");
 }
 
 void onButtonPressLongStart()
 {
-  Serial.println("The Button was held long enought to trigger the start of a long press.");
+	Serial.println("Start of a LONG Press");
 }
 
 void onButtonPressLongRelease()
 {
-  Serial.println("The Button was held long enough but released before a hold. A Long Reslease it is!");
+	Serial.println("End  of a LONG Press");
 }
 
 void onButtonHoldStart()
 {
-  Serial.println("The Button was held so long, its the start of a hold event.");
+	Serial.println("Start of a HOLD Press");
 }
 
 void onButtonHoldContinuous()
 {
-  Serial.println("The Button is being held. This message will be resent continiuoly.");
+	Serial.println("The button is being held. This message will be resend continuously.");
 }
 
 void onButtonHoldRelease()
 {
-  Serial.println("The button, was being held and has now been released!");
+	Serial.println("End of a HOLD Press");
+}
+
+void onMultiClicks()
+{
+	switch (button.getNumberOfMultiClicks())
+	{
+		// One click is considered a onButtonPressShortRelease(). 
+		case 2:		Serial.println("The button has been clicked Twice"); break;
+		case 3:		Serial.println("The button has been clicked Three Times"); break;
+		case 4:		Serial.println("The button has been clicked Four Times"); break;
+		default:	Serial.println(String("The button has been clicked ") + button.getNumberOfMultiClicks() + " times"); break;
+	}
 }
 
 // SHIFT: Actions for the start and end of the shift state

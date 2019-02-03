@@ -2,7 +2,7 @@
 
 ![FlowChartImage](extra/banner.jpg)
       
-An easy to use, powerful, self contained button library so you can focus on your other code! 
+An all in one, easy to use, powerful, self contained button library so you can focus on your other code! 
 
 1. Features
 2. Example Screenshot
@@ -19,7 +19,7 @@ An easy to use, powerful, self contained button library so you can focus on your
   - Long Clicks
   - Hold 
   - and Shifts 
-  - (Multi clicks can easily be added upon request)
+  - Multi clicks!
 
 Easily separate the user response at the start of an event from the code that runs when you know the button type.
 No more having to undo the effects of a short click when the button is held down.

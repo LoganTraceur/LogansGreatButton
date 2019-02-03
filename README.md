@@ -4,7 +4,11 @@
       
 An easy to use, powerful, self contained button library so you can focus on your other code! 
 
-Features
+1. Features
+2. Example Screenshot
+3. Flow Chart
+
+# 1. Features
  - Debouncing
  - Avoids Delays so it never stops your code
  - Super easy to use. Decide what happens at each event and place your code in that method
@@ -24,4 +28,8 @@ Want your device to buzz in a haptic response at the start of every button click
 
 All the power in an easy to use package!
 
-![FlowChartImage](extra/EventFlowchart.jpg)
+# 2. Example Screenshot
+![ExampleImage](extra/Example.JPG)
+
+# 3. Flow Chart
+![FlowChartImage](extra/EventFlowchart.jpg)  

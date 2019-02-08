@@ -14,7 +14,7 @@ An all in one, easy to use, powerful, self contained button library so you can f
  - Super easy to use. Decide what happens at each event and place your code in that method
  - Easily provide user response to events and then only commit to the action code once a Release events is activated! 
  
- Captures the beginning and end so you can create a intuative and responsive experience.
+ Captures the beginning and end so you can create a intuitive and responsive experience.
   - Short Clicks
   - Long Clicks
   - Hold 

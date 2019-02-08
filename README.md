@@ -18,8 +18,9 @@ An all in one, easy to use, powerful, self contained button library so you can f
   - Short Clicks
   - Long Clicks
   - Hold 
-  - and Shifts 
   - Multi clicks!
+  - and Shifts 
+
 
 Easily separate the user response at the start of an event from the code that runs when you know the button type.
 No more having to undo the effects of a short click when the button is held down.

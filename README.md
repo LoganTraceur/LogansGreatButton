@@ -1,4 +1,4 @@
-# Logans Great Button
+# Logans Great Button Library for Arduino
 
 ![FlowChartImage](extra/banner.jpg)
       

@@ -1,8 +1,8 @@
-# LogansGreatButton
+# Logans Great Button
 
 ![FlowChartImage](extra/banner.jpg)
       
-An all in one, easy to use, powerful, self contained button library so you can focus on your other code! 
+An all in one, easy to use, powerful, self contained button library for Arduino so you can focus on your other code! 
 
 1. Features
 2. Example Screenshot

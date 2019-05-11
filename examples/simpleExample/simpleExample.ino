@@ -16,18 +16,6 @@
 
 */
 
-// Required so that the picky Arduino IDE knows that these methods will be declared later (In the second tab). In a future version, this will not be necessary.
-extern void onButtonActionPressed();
-extern void onButtonPressShortRelease();
-extern void onButtonPressLongStart();
-extern void onButtonPressLongRelease();
-extern void onButtonHoldStart();
-extern void onButtonHoldContinuous();
-extern void onButtonHoldRelease();
-extern void onMultiClicks();
-extern void onButtonShiftStart();
-extern void onButtonShiftRelease();
-
 // Class: Button
 #include <LogansGreatButton.h>
 #define BUTTON_PIN    2

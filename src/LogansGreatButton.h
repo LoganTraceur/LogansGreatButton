@@ -10,6 +10,18 @@ Created by Logan Krantz 2016/10/15.
 #ifndef LogansGreatButton_h
 #define LogansGreatButton_h
 
+// Required so that the picky Arduino IDE knows that these methods will be declared later by the user (see second tab of the example)
+extern void onButtonActionPressed();
+extern void onButtonPressShortRelease();
+extern void onButtonPressLongStart();
+extern void onButtonPressLongRelease();
+extern void onButtonHoldStart();
+extern void onButtonHoldContinuous();
+extern void onButtonHoldRelease();
+extern void onMultiClicks();
+extern void onButtonShiftStart();
+extern void onButtonShiftRelease();
+
 typedef void(*callBack) ();
 
 /*

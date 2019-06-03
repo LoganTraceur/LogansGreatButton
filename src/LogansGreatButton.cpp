@@ -3,6 +3,8 @@ LogansGreatButton - Library for operating a single button.
 Created by Logan Krantz 2016/10/15.
 */
 
+// TODO find a way to increase multiclick expire time. Or extend multi click milliseconds to make multiclicks easier, also consider reducing debouces
+
 #include "Arduino.h"
 #include "LogansGreatButton.h"
 
@@ -134,7 +136,12 @@ void LogansGreatButton::LOOPButtonController()
 	checkIfPressedOrReleased();
 	//Serial.println(String("_buttonCurrentState: ") + _buttonCurrentState);
 
-	if (_buttonCurrentState != BUTTON_STATE_WAITING)				// Only run a check if button is currently being held (CPU saver)
+	if (_buttonCurrentState == BUTTON_STATE_WAITING && _numberOfMultiClicks != 0)
+	{
+		_numberOfMultiClicks = 0;									// Reset the multiclick counter
+	}
+	
+	if (_buttonCurrentState != BUTTON_STATE_WAITING) // Only run a check if button is currently being held (CPU saver)
 	{
 		// 2. If the button has been released in a short time it could be a "Short Press" or a "MultiClick". Either way it can no longer be a LONG, HOLD or SHIFT
 		if (_buttonCurrentState == BUTTON_STATE_MULTI_CLICK)
@@ -273,7 +280,7 @@ void LogansGreatButton::releaseOfShortOrMultiClicks()
 		DEBUG_PRINT("\n_CallBackPressShortRelease");
 		_buttonCurrentState = BUTTON_STATE_WAITING;					// Reset the button state ready for next press
 		_CallBackPressShortRelease();
-		_numberOfMultiClicks = 0;									// Reset the multiclick counter
+		//_numberOfMultiClicks = 0;									// Reset the multiclick counter
 	}
 	else
 	{
@@ -287,7 +294,7 @@ void LogansGreatButton::releaseOfShortOrMultiClicks()
 		}
 		#endif // DEBUG_BUTTON
 		_CallBackMultiClicks();
-		_numberOfMultiClicks = 0;									// Reset the multiclick counter
+		//_numberOfMultiClicks = 0;									// Reset the multiclick counter
 	}
 }
 

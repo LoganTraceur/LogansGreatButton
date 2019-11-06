@@ -47,10 +47,23 @@ public:
 	
 	// Constructor
 	LogansGreatButton(uint8_t buttonPin);
-
+	
+	LogansGreatButton(uint8_t buttonPin,
+		callBack onActionPressed,
+		callBack onPressShortRelease,
+		callBack onPressLongStart,
+		callBack onPressLongRelease,
+		callBack onHoldStart,
+		callBack onHoldContinuous,
+		callBack onHoldRelease,
+		callBack onMultiClicks,
+		callBack onShiftStart,
+		callBack onShiftRelease);
+	
 	// Controller. Place this method in the controller so the code runs.
 	void LOOPButtonController();
 	
+	// Callback setters
 	void onActionPressed(callBack ptr_onActionPressed);
 	void onPressShortRelease(callBack ptr_onPressShortRelease);
 	void onPressLongStart(callBack ptr_onPressLongStart);

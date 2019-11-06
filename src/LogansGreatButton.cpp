@@ -45,7 +45,45 @@ const uint16_t DELAY_BEFORE_BUTTON_HOLD = 1500;						// How long before hold is 
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Constuctor
+// All in one constructor
+LogansGreatButton::LogansGreatButton(uint8_t buttonPin,
+	callBack onActionPressed,
+	callBack onPressShortRelease,
+	callBack onPressLongStart,
+	callBack onPressLongRelease,
+	callBack onHoldStart,
+	callBack onHoldContinuous,
+	callBack onHoldRelease,
+	callBack onMultiClick,
+	callBack onShiftStart,
+	callBack onShiftRelease)
+{
+	// Setup Button Output and interrupts
+	_PIN_BUTTON = buttonPin;
+	pinMode(buttonPin, INPUT_PULLUP);
+	digitalWrite(buttonPin, HIGH);									// Really force that pull up!
+	//attachInterrupt(digitalPinToInterrupt(buttonPin), object.interruptLink, CHANGE);		// This sets up the interupt function. (0-> means pin 2, interupt-> is the name of my method, CHANGE-> says that is what the arduino is monitoring)
 
+
+	// Setup CallBackFunctions
+	_CallBackActionPressed = onActionPressed;
+	_CallBackPressShortRelease = onPressShortRelease;
+	_CallBackPressLongStart = onPressLongStart;
+	_CallBackPressLongRelease = onPressLongRelease;
+	_CallBackHoldStart = onHoldStart;
+	_CallBackHoldContinuous = onHoldContinuous;
+	_CallBackHoldRelease = onHoldRelease;
+	_CallBackMultiClicks = onMultiClick;
+	_CallBackShiftStart = onShiftStart;
+	_CallBackShiftRelease = onShiftRelease;
+
+	// Re-assigning Start Booleans avoids errors for some reason
+	_isStartOfHold = true;
+	_isStartOfShift = true;
+}
+
+
+// Dynamic constructor
 LogansGreatButton::LogansGreatButton(uint8_t buttonPin)
 {
 	// Setup Button Output and interrupts
@@ -72,6 +110,8 @@ LogansGreatButton::LogansGreatButton(uint8_t buttonPin)
 	_isStartOfShift = true;
 }
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Dynamically set callbacks
 void LogansGreatButton::onActionPressed(callBack ptr_onActionPressed)
 {
 	_CallBackActionPressed = ptr_onActionPressed;
@@ -121,6 +161,9 @@ void LogansGreatButton::onShiftRelease(callBack ptr_onShiftRelease)
 {
 	_CallBackShiftRelease = ptr_onShiftRelease;
 }
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Logic Code
 
 void LogansGreatButton::checkIfPressedOrReleased()
 {

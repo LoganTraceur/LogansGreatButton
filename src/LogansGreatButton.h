@@ -10,6 +10,10 @@ Created by Logan Krantz 2016/10/15.
 #ifndef LogansGreatButton_h
 #define LogansGreatButton_h
 
+#include <Arduino.h>
+typedef void(*callBack)();
+
+
 // Required so that the picky Arduino IDE knows that these methods will be declared later by the user (see second tab of the example)
 extern void onButtonActionPressed();
 extern void onButtonPressShortRelease();
@@ -22,38 +26,41 @@ extern void onMultiClicks();
 extern void onButtonShiftStart();
 extern void onButtonShiftRelease();
 
-typedef void(*callBack) ();
+
+
+
 
 /*
 A Class to easily and powerfully control a button
 Use callbacks for most button actions
 And to use SHIFT clicks use "if (button.isShiftStateReady_ThenShiftMode()) {"
-
 // Class: Button
 #include <LogansGreatButton.h>
 #define BUTTON_PIN		2
 LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShortRelease, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onButtonShiftStart, onButtonShiftRelease);
-
 button.LOOPButtonController();
 */
 class LogansGreatButton
 {
 public:
+
+	
 	// Constructor
-	LogansGreatButton(uint8_t buttonPin,
-		callBack onActionPressed,
-		callBack onPressShortRelease,
-		callBack onPressLongStart,
-		callBack onPressLongRelease,
-		callBack onHoldStart,
-		callBack onHoldContinuous,
-		callBack onHoldRelease,
-		callBack onMultiClicks,
-		callBack onShiftStart,
-		callBack onShiftRelease);
+	LogansGreatButton(uint8_t buttonPin);
 
 	// Controller. Place this method in the controller so the code runs.
 	void LOOPButtonController();
+	
+	void onActionPressed(callBack ptr_onActionPressed);
+	void onPressShortRelease(callBack ptr_onPressShortRelease);
+	void onPressLongStart(callBack ptr_onPressLongStart);
+	void onPressLongRelease(callBack ptr_onPressLongRelease);
+	void onHoldStart(callBack ptr_onHoldStart);
+	void onHoldContinuous(callBack ptr_onHoldContinuous);
+	void onHoldRelease(callBack ptr_onHoldRelease);
+	void onMultiClick(callBack ptr_onMultiClick);
+	void onShiftStart(callBack ptr_onShiftStart);
+	void onShiftRelease(callBack ptr_onShiftRelease);
 
 	// Like the shift key on a keyboard. Calling this method quickly before the beginning of a HoldStart sets the "SHIFT" state and make "start" and "release" callbacks.
 	// This function can be used by calling if (isShiftStateReady_ThenShiftMode()) {
@@ -72,13 +79,13 @@ public:
 
 	// Returns the current number of multiclicks
 	uint16_t getNumberOfMultiClicks();
+	
 
 private:
 	//void interruptButton();
 	void checkIfPressedOrReleased();
 	void buttonActionReleased(); 
 	void releaseOfShortOrMultiClicks();
-
 	
 	// Callback Methods, This allows the user to use their own methods when a button event happens
 	callBack

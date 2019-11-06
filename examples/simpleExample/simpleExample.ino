@@ -1,35 +1,25 @@
-/*
-    Simple Example of LogansGreatButton Library
-
-    In this example, you can see how easy it is to use this powerful button library.
-    
-    NOTE: THE BUTTON CALLBACK METHODS ARE IN THE SECOND TAB 
-    Not only does it make it easier to keep your code clean but it solves a problem where the IDE requires the callback methods to be declared before the constructor
-
-    The circuit:
-    For this example just connect a button to pin2 and ground.
-
-    Created 26/01/2019
-    By Logan K
-
-    https://github.com/LoganTraceur/LogansGreatButton
-
-*/
-
-// Class: Button
 #include <LogansGreatButton.h>
-#define BUTTON_PIN    2
-LogansGreatButton button(BUTTON_PIN, onButtonActionPressed, onButtonPressShortRelease, onButtonPressLongStart, onButtonPressLongRelease, onButtonHoldStart, onButtonHoldContinuous, onButtonHoldRelease, onMultiClicks, onButtonShiftStart, onButtonShiftRelease);
 
+#define BUTTON_PIN 25
+LogansGreatButton button(BUTTON_PIN);
+
+void onPressShortRelease(void)
+{
+  Serial.print("Short Press");
+}
+
+void onPressLongStart(void)
+{
+  Serial.print("Long Press");
+}
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Welcome to LogansGreatButton example!");
+  Serial.begin(115200);
+
+  button.onPressShortRelease(onPressShortRelease);
+  button.onPressLongStart(onPressLongStart);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   button.LOOPButtonController();
-  
 }

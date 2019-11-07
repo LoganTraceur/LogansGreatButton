@@ -18,16 +18,17 @@ LogansGreatButton button(BUTTON_PIN);
 
 void onPressShortRelease(void)
 {
-  Serial.print("Short Press");
+  Serial.println("Short Press");
 }
 
 void onPressLongStart(void)
 {
-  Serial.print("Long Press");
+  Serial.println("Long Press");
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.println("Welcome to LogansGreatButton example!");
 
   button.onPressShortRelease(onPressShortRelease);
   button.onPressLongStart(onPressLongStart);

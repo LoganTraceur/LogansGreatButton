@@ -42,7 +42,7 @@ const uint16_t DELAY_BEFORE_LONG_PRESS = 750;						// How long must a button be 
 const uint16_t DELAY_BEFORE_BUTTON_HOLD = 1500;						// How long before hold is registered
 																	// AND the Time available to activate shift mode.
 																	// This value should be longer then a long press.
-
+unsigned int _ClickType = 0;										// Update the type of trigger when the button state changes
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Constuctor
 // All in one constructor
@@ -161,7 +161,10 @@ void LogansGreatButton::onShiftRelease(callBack ptr_onShiftRelease)
 {
 	_CallBackShiftRelease = ptr_onShiftRelease;
 }
-
+unsigned int LogansGreatButton::getClickType()
+{
+	return _ClickType;
+}
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Logic Code
 
@@ -191,7 +194,11 @@ void LogansGreatButton::checkIfPressedOrReleased()
 					// This is the first click in this series
 					DEBUG_PRINT("\n_CallBackActionPressed");
 					_buttonCurrentState = BUTTON_STATE_PRESSED;
-					if(_CallBackActionPressed) _CallBackActionPressed();
+					if(_CallBackActionPressed)
+					{
+						_ClickType = _ActionPressed;
+						_CallBackActionPressed();
+					} 
 				}
 				else if (_buttonCurrentState == BUTTON_STATE_MULTI_CLICK)
 				{
@@ -244,7 +251,11 @@ void LogansGreatButton::LOOPButtonController()
 			if (_isStartOfShift)
 			{
 				DEBUG_PRINT("\n_CallBackShiftStart");
-				if(_CallBackShiftStart) _CallBackShiftStart();
+				if(_CallBackShiftStart)
+				{
+					_ClickType = _ShiftStart;
+					_CallBackShiftStart();
+				} 
 				_isStartOfShift = false;
 			}
 			//DEBUG_PRINT("\n_CallBackShiftContinuous");
@@ -257,18 +268,31 @@ void LogansGreatButton::LOOPButtonController()
 			{
 				DEBUG_PRINT("\n_CallBackHoldStart");
 				_buttonCurrentState = BUTTON_STATE_HOLD;
-				if(_CallBackHoldStart) _CallBackHoldStart();
+				if(_CallBackHoldStart) 
+				{
+					_ClickType = _HoldStart;
+					_CallBackHoldStart();
+				}
 				_isStartOfHold = false;
 			}
 			DEBUG_PRINT(".")
-			if(_CallBackHoldContinuous) _CallBackHoldContinuous();								// Runs Continuously while button is held down
+			if(_CallBackHoldContinuous)
+			{
+				_ClickType = _HoldContinuous;
+				_CallBackHoldContinuous(); // Runs Continuously while button is held down
+			} 
 		}
 		// 5. OR Acknowlage the long press
 		else if (isButtonLongPress())								// Long press is slightly shorter then hold, and therefore tested second using an else
 		{
 			DEBUG_PRINT("\n_CallBackPressLongStart");
 			_buttonCurrentState = BUTTON_STATE_LONG_PRESSED;
-			if(_CallBackPressLongStart) _CallBackPressLongStart();
+			if(_CallBackPressLongStart)
+			{
+				_ClickType = _PressLongStart;
+				_CallBackPressLongStart();
+			}
+			 
 		}
 	}
 }
@@ -329,7 +353,11 @@ void LogansGreatButton::buttonActionReleased()
 	{
 		DEBUG_PRINT("\n_CallBackPressLongRelease");
 		_buttonCurrentState = BUTTON_STATE_WAITING;					// Reset the button state ready for next press
-		if(_CallBackPressLongRelease) _CallBackPressLongRelease();	// This mode may have a release event to undo the prevously held state
+		if(_CallBackPressLongRelease)
+		{
+			_ClickType = _PressLongRelease;
+			_CallBackPressLongRelease(); // This mode may have a release event to undo the prevously held state
+		} 
 	}
 	break;
 	case BUTTON_STATE_HOLD:
@@ -337,7 +365,11 @@ void LogansGreatButton::buttonActionReleased()
 		DEBUG_PRINT("\n_CallBackHoldRelease");
 		_isStartOfHold = true;										// Reset _isStartOfHold so that is ready to accept the start on a new hold next time
 		_buttonCurrentState = BUTTON_STATE_WAITING;					// Reset the button state ready for next press
-		if(_CallBackHoldRelease) _CallBackHoldRelease();	// This mode may have a release event to undo the prevously held state
+		if(_CallBackHoldRelease)
+		{
+			_ClickType = _HoldRelease;
+			_CallBackHoldRelease(); // This mode may have a release event to undo the prevously held state
+		}
 	}
 	break;
 	case BUTTON_STATE_SHIFT:
@@ -345,7 +377,11 @@ void LogansGreatButton::buttonActionReleased()
 		DEBUG_PRINT("\n_CallBackShiftRelease");
 		_isStartOfShift = true;										// Reset _isStartOfShift so that is ready to accept the start on a new shift next time
 		_buttonCurrentState = BUTTON_STATE_WAITING;					// This needs to be done before _CallBackShiftRelease otherwise isButtonInShiftMode() returns the wrong value when called in _CallBackShiftRelease
-		if(_CallBackShiftRelease) _CallBackShiftRelease();									// This callback allows a user set release event
+		if(_CallBackShiftRelease)
+		{
+			_ClickType = _ShiftRelease;
+			_CallBackShiftRelease(); // This callback allows a user set release event
+		}
 	}
 	break;
 	default: break;
@@ -362,7 +398,12 @@ void LogansGreatButton::releaseOfShortOrMultiClicks()
 	{
 		DEBUG_PRINT("\n_CallBackPressShortRelease");
 		_buttonCurrentState = BUTTON_STATE_WAITING;					// Reset the button state ready for next press
-		if(_CallBackPressShortRelease) _CallBackPressShortRelease();
+		if(_CallBackPressShortRelease) 
+		{
+			_ClickType = _PressShortRelease;
+			_CallBackPressShortRelease();
+		}
+		
 		//_numberOfMultiClicks = 0;									// Reset the multiclick counter
 	}
 	else

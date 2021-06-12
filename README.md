@@ -1,6 +1,6 @@
 # Logans Great Button Library for Arduino
 
-![FlowChartImage](extra/banner.jpg)
+![BannerImage](extra/banner.jpg)
       
 An all in one, easy to use, powerful, self contained button library for Arduino so you can focus on your other code! 
 

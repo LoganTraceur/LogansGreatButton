@@ -9,7 +9,16 @@ Created by Logan Krantz 2016/10/15.
 
 #ifndef LogansGreatButton_h
 #define LogansGreatButton_h
-
+#define _ActionPressed 1
+#define _PressShortRelease 2
+#define _PressLongStart 3
+#define _PressLongRelease 4
+#define _HoldStart 5
+#define _HoldContinuous 6
+#define _HoldRelease 7
+#define _MultiClicks 8
+#define _ShiftStart 9
+#define _ShiftRelease 10
 #include <Arduino.h>
 typedef void(*callBack)();
 
@@ -25,8 +34,7 @@ extern void onButtonHoldRelease();
 extern void onMultiClicks();
 extern void onButtonShiftStart();
 extern void onButtonShiftRelease();
-
-
+extern void getClickType();
 
 
 
@@ -92,7 +100,7 @@ public:
 
 	// Returns the current number of multiclicks
 	uint16_t getNumberOfMultiClicks();
-	
+	unsigned int getClickType();
 
 private:
 	//void interruptButton();
